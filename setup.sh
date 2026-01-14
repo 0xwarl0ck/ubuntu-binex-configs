@@ -51,14 +51,14 @@ PKG=""
 pick_pkg_frontend() {
   if have nala; then
     PKG="nala"
-  else 
+  else
     PKG="apt-get"
   fi
 }
 
 pkg_update() {
   if [[ "$PKG" == "nala" ]]; then
-    sudo nala update -y
+    sudo nala update
   else
     sudo apt-get update -y
   fi
@@ -491,7 +491,7 @@ run_soft "ghidra symlink"       bash -c "test -L '$HOME/tools/ghidra' && test -x
 # ----- cleanup -----
 section "Cleanup"
 if [[ "$PKG" == "nala" ]]; then
-  run_soft "nala autoremove" sudo DEBIAN_FRONTEND=noninteractive nala autoremove -y --quiet
+  run_soft "nala autoremove" sudo DEBIAN_FRONTEND=noninteractive nala autoremove -y
   run_soft "nala clean"      sudo nala clean
 else
   run_soft "apt autoremove" sudo DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
