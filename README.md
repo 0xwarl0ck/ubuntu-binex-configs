@@ -1,5 +1,5 @@
 # ubuntu-binex-configs
-Configuration scripts and files to automate the setup of an **ubuntu binex development virutal machine**. This repository streamlines the installation of debuggers, decompilers, and library management tools that I use for binary exploitation.
+Configuration scripts and files to automate the setup of an **ubuntu binary exploitation development virtual machine**. This repository streamlines the installation of debuggers, decompilers, and library management tools that I use for binary exploitation.
 
 This repository contains two scripts:
 
