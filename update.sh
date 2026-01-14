@@ -68,7 +68,7 @@ pick_pkg_frontend() { have nala && PKG="nala" || PKG="apt-get"; }
 
 pkg_update() {
   if [[ "$PKG" == "nala" ]]; then
-    sudo nala update -y -q || return 1
+    sudo nala update || return 1
   else
     sudo apt-get -qq update || return 1
   fi
@@ -76,7 +76,7 @@ pkg_update() {
 
 pkg_upgrade() {
   if [[ "$PKG" == "nala" ]]; then
-    sudo DEBIAN_FRONTEND=noninteractive nala upgrade -y -q || return 1
+    sudo DEBIAN_FRONTEND=noninteractive nala upgrade -y || return 1
   else
     sudo DEBIAN_FRONTEND=noninteractive apt-get -y -qq upgrade || return 1
   fi
@@ -92,14 +92,18 @@ pkg_fix_soft() {
 
 pkg_autoremove_soft() {
   if [[ "$PKG" == "nala" ]]; then
-    sudo DEBIAN_FRONTEND=noninteractive nala autoremove -y -q || true
+    sudo DEBIAN_FRONTEND=noninteractive nala autoremove -y || true
   else
     sudo DEBIAN_FRONTEND=noninteractive apt-get -y -qq autoremove || true
   fi
 }
 
 pkg_clean_soft() {
-  sudo apt-get clean >/dev/null 2>&1 || true
+  if [[ "$PKG" == "nala" ]]; then
+    sudo nala clean >/dev/null 2>&1 || true
+  else
+    sudo apt-get clean >/dev/null 2>&1 || true
+  fi
 }
 
 # ----- background tasks + logs -----
@@ -136,7 +140,8 @@ wait_tasks() {
     fi
   done
   PIDS=()
-  PIDLOG=()
+  unset PIDLOG
+  declare -A PIDLOG=()
 }
 
 kill_bg_tasks() {
