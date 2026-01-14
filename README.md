@@ -1,19 +1,44 @@
 # ubuntu-binex-configs
-Configuration scripts and files to automate the setup of a professional **Ubuntu Exploit Development VM**. This repository streamlines the installation of debuggers, decompilers, and library management tools.
+Configuration scripts and files to automate the setup of an **ubuntu binex development virutal machine**. This repository streamlines the installation of debuggers, decompilers, and library management tools that I use for binary exploitation.
 
-## Included Tools
+This repository contains two scripts:
 
-The setup scripts in this repository cover the essential "BinEx Starter Pack":
+- `setup.sh` — full installer and configuration script. Safe to rerun incase it fails or something
+- `update.sh` — lifecycle updater
 
-### 1. Debugging & GDB Plugins
-* **pwndbg** or **GEF** - Enhanced GDB environments for exploit developers.
-* **Radare2 / Cutter** - Powerful reverse engineering frameworks.
+> [!NOTE]  
+> This is a **personal configuration** repository. It is tailored for my workflow but provided as-is for anyone building an Ubuntu-based exploit development VM.
 
-### 2. Analysis & Gadget Hunting
-* **Ropper / ROPgadget** - To find gadgets for ROP chains.
-* **checksec** - To verify binary protections (NX, ASLR, PIE, Canary).
-* **one_gadget** - Finds one-shot RCE gadgets in `libc`.
+I'm using the same tmux and ghostty configuration as my kali config repo.
 
-### 3. Exploitation Libraries
-* **pwntools** - The industry-standard Python library for crafting exploits.
-* **patchelf** - For modifying ELF headers to use specific `libc` versions.
+---
+
+## Toolset
+
+### Analysis & Debugging
+- **GDB Plugins:** `pwndbg` + `GEF` with global symlink management and `gdb-switch`
+- **Decompiler:** Latest **Ghidra** (installed under `~/tools/` with a persistent symlink)
+- **Gadget Hunting:** `ropper`, `ROPGadget`, `one_gadget` (Ruby)
+- **Binary Auditing:** `checksec`, `patchelf`, `strace`, `ltrace`
+
+### Environment & Productivity
+- **Terminal:** **Ghostty** (set as GNOME default terminal) + `tmux`
+- **Modern CLI:** `eza`, `bat`, `fzf`, `btop`
+- **Editors:** **VSCodium** + **Pulsar**
+- **Browser:** **Brave**
+- **Frameworks:** system-wide `pwntools` and `i386` architecture support
+
+---
+
+## Installation and updates
+
+Install straight to your home directory 
+
+```bash
+git clone https://github.com/0xwarl0ck/ubuntu-binex-configs.git
+cd ubuntu-binex-configs
+chmod +x setup.sh
+./setup.sh
+```
+
+To update tools, simply run `update.sh`
