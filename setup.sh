@@ -51,7 +51,7 @@ PKG=""
 pick_pkg_frontend() {
   if have nala; then
     PKG="nala"
-  else
+  else 
     PKG="apt-get"
   fi
 }
@@ -490,9 +490,14 @@ run_soft "ghidra symlink"       bash -c "test -L '$HOME/tools/ghidra' && test -x
 
 # ----- cleanup -----
 section "Cleanup"
-run_soft "apt autoremove" sudo DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
-run_soft "apt clean"      sudo apt-get clean
-run_soft "tmp cleanup"    bash -c "rm -f /tmp/brave-install.sh 2>/dev/null || true"
+if [[ "$PKG" == "nala" ]]; then
+  run_soft "nala autoremove" sudo DEBIAN_FRONTEND=noninteractive nala autoremove -y --quiet
+  run_soft "nala clean"      sudo nala clean
+else
+  run_soft "apt autoremove" sudo DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
+  run_soft "apt clean"      sudo apt-get clean
+fi
+run_soft "tmp cleanup" bash -c "rm -f /tmp/brave-install.sh 2>/dev/null || true"
 
 # ----- reboot -----
 section "Reboot"
