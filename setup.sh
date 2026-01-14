@@ -385,35 +385,41 @@ else
   FAIL "pwndbg gdbinit.py not found"
 fi
 
-run "gdb-gef wrapper" bash -c \
-  "cat > '$HOME/.local/bin/gdb-gef' <<'EOF'
+run "gdb-gef wrapper" bash -c "cat > '$HOME/.local/bin/gdb-gef' <<'EOF'
 #!/usr/bin/env bash
-exec gdb -q -x "\$HOME/.gdbinit-gef" "\$@"
+exec gdb -q -x \"\$HOME/.gdbinit-gef\" \"\$@\"
 EOF
 chmod +x '$HOME/.local/bin/gdb-gef'"
 
-run "gdb-pwndbg wrapper" bash -c \
-  "cat > '$HOME/.local/bin/gdb-pwndbg' <<'EOF'
+run "gdb-pwndbg wrapper" bash -c "cat > '$HOME/.local/bin/gdb-pwndbg' <<'EOF'
 #!/usr/bin/env bash
-exec gdb -q -x "\$HOME/.gdbinit-pwndbg" "\$@"
+exec gdb -q -x \"\$HOME/.gdbinit-pwndbg\" \"\$@\"
 EOF
 chmod +x '$HOME/.local/bin/gdb-pwndbg'"
 
-run "gdb-switch helper" bash -c \
-  "cat > '$HOME/.local/bin/gdb-switch' <<'EOF'
+run "gdb-switch helper" bash -c "cat > '$HOME/.local/bin/gdb-switch' <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-mode="\${1:-}"
-home="\$HOME"
-case "\$mode\" in
-  gef)    ln -sf "\$home/.gdbinit-gef"    "\$home/.gdbinit"; echo "[+] ~/.gdbinit -> ~/.gdbinit-gef" ;;
-  pwndbg) ln -sf "\$home/.gdbinit-pwndbg" "\$home/.gdbinit"; echo "[+] ~/.gdbinit -> ~/.gdbinit-pwndbg" ;;
-  *) echo "Usage: gdb-switch gef|pwndbg" >&2; exit 1 ;;
+mode=\"\${1:-}\"
+
+case \"\$mode\" in
+  gef)
+    ln -sfn \"\$HOME/.gdbinit-gef\" \"\$HOME/.gdbinit\"
+    echo \"[+] ~/.gdbinit -> ~/.gdbinit-gef\"
+    ;;
+  pwndbg)
+    ln -sfn \"\$HOME/.gdbinit-pwndbg\" \"\$HOME/.gdbinit\"
+    echo \"[+] ~/.gdbinit -> ~/.gdbinit-pwndbg\"
+    ;;
+  *)
+    echo \"Usage: gdb-switch gef|pwndbg\" >&2
+    exit 1
+    ;;
 esac
 EOF
 chmod +x '$HOME/.local/bin/gdb-switch'"
 
-run_soft "default gdb -> gef" bash -c "ln -sf '$HOME/.gdbinit-gef' '$HOME/.gdbinit'"
+run_soft "default gdb -> gef" bash -c "ln -sfn '$HOME/.gdbinit-gef' '$HOME/.gdbinit'"
 
 # ----- aliases + helpers -----
 section "Aliases + helpers"
@@ -435,8 +441,6 @@ alias lt='eza --tree \$eza_params'
 alias tree='eza --tree \$eza_params'
 alias cat=\"batcat\"
 alias top=\"btop\"
-
-gdb-switch() { command gdb-switch \"\$@\"; }
 
 pwninit() {
   if [[ \$# -lt 2 ]]; then
