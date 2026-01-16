@@ -362,7 +362,7 @@ run_soft "one_gadget" sudo gem install one_gadget --no-document
 
 # ----- gdb plugins + switch -----
 section "GDB plugins + global switch"
-run "GEF" bash -c "curl -fsSL https://gef.blah.cat/py -o '$HOME/.gdb-plugins/gef.py'"
+run "GEF" bash -c "curl -fsSL https://raw.githubusercontent.com/hugsy/gef/refs/heads/main/gef.py -o '$HOME/.gdb-plugins/gef.py'"
 run "gdbinit-gef" bash -c "printf '%s\n' 'source ~/.gdb-plugins/gef.py' > '$HOME/.gdbinit-gef'"
 
 run "pwndbg update/clone" bash -c '
