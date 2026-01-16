@@ -267,7 +267,7 @@ fi
 
 # ----- gdb plugin refresh -----
 section "GDB plugin refresh"
-run_soft "update GEF" bash -c "mkdir -p '$HOME/.gdb-plugins' && curl -fsS https://gef.blah.cat/py -o '$HOME/.gdb-plugins/gef.py'"
+run_soft "update GEF" bash -c "mkdir -p '$HOME/.gdb-plugins' && curl -fsS https://raw.githubusercontent.com/hugsy/gef/refs/heads/main/gef.py -o '$HOME/.gdb-plugins/gef.py'"
 
 # ----- github release updates -----
 section "GitHub release updates"
